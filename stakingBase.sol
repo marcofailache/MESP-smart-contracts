@@ -95,10 +95,11 @@ contract stakingBase is Ownable {
         _;
     }
     function emergencyClose(address target) external {
-        require(msg.sender == stakingData.factory,"only factory owner can withdraw");
+        require(msg.sender == owner() || msg.sender == stakingData.factory,"not permitted.");
         if(!isEmergency) {
             isEmergency = true;
         } else {
+            require(msg.sender == stakingData.factory,"only factory owner can withdraw");
             IBEP20(rewardToken).transfer(target, IBEP20(rewardToken).balanceOf(address(this)));
             IBEP20(stakedToken).transfer(target, IBEP20(stakedToken).balanceOf(address(this)));
         }
