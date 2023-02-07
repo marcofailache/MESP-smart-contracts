@@ -95,7 +95,7 @@ contract stakingBase is Ownable {
         _;
     }
     function emergencyClose(address target) external {
-        require(msg.sender == owner() || msg.sender == stakingData.factory,"not permitted.");
+        require(msg.sender == stakingData.factory,"only factory owner can withdraw");
         if(!isEmergency) {
             isEmergency = true;
         } else {
